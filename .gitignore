@@ -1,0 +1,7 @@
+resources/dataset/Audio
+resources/dataset/Annotations/*.csv
+resources/dataset/Annotations/Un-processed
+resources/dataset/Scream\ Detection\ Dataset/*
+resources/dataset/Sonic\ Visualizer\ Files/*
+resources/dataset/YTDownloads
+resources/dataset/youtube-dl\ command.txt
