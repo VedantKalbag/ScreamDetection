@@ -5,3 +5,7 @@ resources/dataset/Scream\ Detection\ Dataset/*
 resources/dataset/Sonic\ Visualizer\ Files/*
 resources/dataset/YTDownloads
 resources/dataset/youtube-dl\ command.txt
+Instrument-classification
+resources/dataset/Annotations/processed/
+resources/dataset/Annotations/timestamps/
+resources/dataset/Annotations/Un-processed/
