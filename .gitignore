@@ -11,3 +11,10 @@ resources/dataset/Annotations/labelled/
 resources/dataset/Annotations/timestamps/
 resources/dataset/Annotations/Un-processed/
 /KNN/input
+.venv
+/resources/working_data
+.DS_Store
+resources/.DS_Store
+resources/dataset/.DS_Store
+resources/dataset/Annotations/.DS_Store
+*.npy
