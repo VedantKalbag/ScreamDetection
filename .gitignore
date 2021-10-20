@@ -12,6 +12,7 @@ resources/dataset/Annotations/timestamps/
 resources/dataset/Annotations/Un-processed/
 /KNN/input
 .venv
+.vscode
 /resources/working_data
 .DS_Store
 resources/.DS_Store
