@@ -23,3 +23,6 @@ ai-research-code
 models
 pretrained_models
 resources/fromserver
+CNN/data
+*.pyc
+Miniconda3-latest-Linux-x86_64.sh
