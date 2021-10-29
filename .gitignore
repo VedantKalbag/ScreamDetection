@@ -26,3 +26,4 @@ resources/fromserver
 CNN/data
 *.pyc
 Miniconda3-latest-Linux-x86_64.sh
+scream_detection
