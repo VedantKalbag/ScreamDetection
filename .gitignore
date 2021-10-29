@@ -27,3 +27,5 @@ CNN/data
 *.pyc
 Miniconda3-latest-Linux-x86_64.sh
 scream_detection
+resources/.DS_Store
+resources/dataset/.DS_Store
