@@ -18,6 +18,7 @@ resources/dataset/Annotations/Un-processed/
 resources/.DS_Store
 resources/dataset/.DS_Store
 resources/dataset/Annotations/.DS_Store
+resources/dataset/blocked_audio
 *.npy
 ai-research-code
 models
