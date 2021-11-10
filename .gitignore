@@ -32,3 +32,4 @@ resources/.DS_Store
 resources/dataset/.DS_Store
 resources/dataset/blocked_audio
 CNN/data
+CNN/trained_models/fcnn
