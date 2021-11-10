@@ -213,10 +213,10 @@ def train_models(X_train,y_train_hot,X_test,y_test_hot,epochs,batch_size,lr,laye
 
 
 if __name__ == '__main__':
-    lr_values=[0.001,0.0025,0.005,0.01,0.025,0.05]
-    batch_size_values=[128,256,512,1024,2048]
-    layer1_node_values=[8,16,32,64,128,256,512,1024,2048]
-    epoch_values=[1000,2500,5000,7500,10000]
+    lr_values=[0.001,0.005,0.01,0.05]
+    batch_size_values=[256,512,1024]
+    layer1_node_values=[8,32,64,256,512,1024,2048]
+    epoch_values=[1000,2500,5000,10000]
 
 
     for lr in lr_values:
