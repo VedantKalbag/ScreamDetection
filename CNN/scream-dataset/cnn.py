@@ -5,7 +5,7 @@ from torchsummary import summary
 class CNNNetwork(nn.Module):
     def __init__(self):
         super().__init__()
-        # 4 convolutional blocks + flatten layer + linear layer + softmax
+        # 1 convolutional block + flatten layer + linear layer + softmax
         self.conv1 = nn.Sequential(
             nn.Conv2d(
                 in_channels = 1,
@@ -18,7 +18,7 @@ class CNNNetwork(nn.Module):
             nn.MaxPool2d(kernel_size = 2)
         )
         self.flatten = nn.Flatten()
-        self.linear = nn.Linear(23232, 10) #Input is size of flatten, output is num of classes
+        self.linear = nn.Linear(16*33*44, 6) #Input is size of flatten, output is num of classes
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, input_data):

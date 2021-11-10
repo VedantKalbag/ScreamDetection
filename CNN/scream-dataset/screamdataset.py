@@ -10,24 +10,33 @@ class ScreamDataset(Dataset):
         self.audio_dir = audio_dir
         self.device = device
         self.transformation = transformation.to(self.device)
+        self.num_samples = 44100
 
     def _get_audio_sample_path(self, index):
-        filename = f"{self.annotations.iloc[index, 5]}.wav"
+        filename = f"{self.annotations.iloc[index, 0]}.wav"
         path = os.path.join(self.audio_dir,filename)
         return path
 
     def _get_audio_sample_label(self, index):
-        return self.annotations.iloc[index, 6]
+        return self.annotations.iloc[index, 5]
+
+    def _right_pad_if_necessary(self,signal):
+        length_of_signal = signal.shape[1]
+        if length_of_signal < self.num_samples:
+            num_missing_samples = self.num_samples - length_of_signal
+            last_dim_padding = (0,num_missing_samples) # (left_pad,right_pad)
+            signal = torch.nn.functional.pad(signal,last_dim_padding)
+        return signal
 
     def __len__(self):
         return len(self.annotations)
  
-
     def __getitem__(self,index):
         audio_sample_path = self._get_audio_sample_path(index)
         label = self._get_audio_sample_label(index)
         signal, sr = torchaudio.load(audio_sample_path)
         signal = signal.to(self.device) #register signal to device
+        signal = self._right_pad_if_necessary(signal)
         #Transformations
         signal = self.transformation(signal)
         return signal, label
@@ -35,8 +44,8 @@ class ScreamDataset(Dataset):
 
 
 if __name__ == "__main__":
-    ANNOTATIONS_FILE = '/home/vedant/projects/ScreamDetection/resources/dataset/dataset-pytorch.csv'
-    AUDIO_DIR = '/home/vedant/projects/ScreamDetection/resources/dataset/blocked_audio'
+    TRAIN_ANNOTATIONS_FILE = '/home/vedant/projects/ScreamDetection/resources/dataset/pytorch-dataset-train.csv'
+    AUDIO_DIR = '/home/vedant/projects/ScreamDetection/resources/dataset/blocked_audio/train'
     mel_spectrogram = torchaudio.transforms.MelSpectrogram(
             sample_rate = 44100,
             n_fft = 1024,
@@ -48,8 +57,10 @@ if __name__ == "__main__":
     else:
         DEVICE = 'cpu'
 
-    sd = ScreamDataset(ANNOTATIONS_FILE, AUDIO_DIR, mel_spectrogram, DEVICE)
-    data,label = sd[0]
+    sd_train = ScreamDataset(TRAIN_ANNOTATIONS_FILE, AUDIO_DIR, mel_spectrogram, DEVICE)
+    sd_test = ScreamDataset(TRAIN_ANNOTATIONS_FILE, AUDIO_DIR, mel_spectrogram, DEVICE)
+    sd_valid = ScreamDataset(TRAIN_ANNOTATIONS_FILE, AUDIO_DIR, mel_spectrogram, DEVICE)
+    data,label = sd_train[0]
     print(label)
     print(data.shape)
     

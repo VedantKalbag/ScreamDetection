@@ -10,8 +10,8 @@ ANNOTATIONS_FILE = '/home/vedant/projects/ScreamDetection/CNN/data/UrbanSound8K/
 AUDIO_DIR = '/home/vedant/projects/ScreamDetection/CNN/data/UrbanSound8K/audio' 
 SAMPLE_RATE = 22050
 NUM_SAMPLES = 22050
-BATCH_SIZE=128
-EPOCHS = 30
+BATCH_SIZE=1024
+EPOCHS = 10#30
 LEARNING_RATE = 0.001
 
 def create_data_loader(train_data,batch_size):
