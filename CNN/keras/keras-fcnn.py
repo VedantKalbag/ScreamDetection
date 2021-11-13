@@ -58,7 +58,7 @@ cols=['video_id', 'start_time', 'mid_ts', 'label', 'average_zcr',
 d=np.load(path+'ScreamDetection/resources/working_data/vocal_only_features.npy',allow_pickle=True)
 df = pd.DataFrame(d,columns=cols)
 
-lut = pd.read_csv(path+'/ScreamDetection/resources/working_data/dataset/lookup_new.csv')
+lut = pd.read_csv(path+'ScreamDetection/resources/dataset/lookup_new.csv')
 
 df.drop('vggish',axis=1,inplace=True)
 feature_df=df
@@ -147,7 +147,7 @@ y_train_hot = to_categorical(train['label_mapped'].to_numpy())
 x_test1 = test[features].to_numpy()
 y_test_hot1 = to_categorical(test['label_mapped'].to_numpy())
 
-x_test,x_valid,y_test_hot,y_valid=train_test_split(x_test1,y_test_hot1,test_size=0.2, random_state=42)
+x_test,X_valid,y_test_hot,y_valid=train_test_split(x_test1,y_test_hot1,test_size=0.2, random_state=42)
 
 X_train=x_train
 X_test=x_test
@@ -178,9 +178,9 @@ def train_models(X_train,y_train_hot,X_test,y_test_hot,epochs,batch_size,lr,laye
     model.add(Dense(3, activation='sigmoid'))
 
     if optimiser=='adadelta':
-        optim=keras.optimizers.Adadelta(lr=lr)
+        optim=keras.optimizers.Adadelta(learning_rate=lr)
     if optimiser == 'adam':
-        optim=keras.optimizers.Adam(lr=lr)
+        optim=keras.optimizers.Adam(learning_rate=lr)
 
     if loss == 'crossentropy':
         loss_fn = keras.losses.categorical_crossentropy
@@ -194,19 +194,25 @@ def train_models(X_train,y_train_hot,X_test,y_test_hot,epochs,batch_size,lr,laye
     history=model.fit(X_train, y_train_hot,
             batch_size=batch_size,
             epochs=epochs,
-            verbose=1,
+            verbose=0,
             validation_data=(X_test, y_test_hot))
     training_loss=history.history['loss']
     validation_loss=history.history['val_loss']
     training_acc=history.history['accuracy']
     validation_acc=history.history['val_accuracy']
     df=pd.DataFrame()
+    df['optimiser'] = optimiser
+    df['epochs'] = epochs
+    df['learning_rate'] = lr
+    df['layer1_nodes'] = layer1_nodes
+    df['batch_size'] = batch_size
     df['training_loss'] = training_loss
     df['validation_loss'] = validation_loss
     df['training_acc'] = training_acc
     df['validation_acc'] = validation_acc
+    
     lr_str=str(lr).replace('.','_')
-    model_name=f'fcnn_layer1-{layer1_nodes}_batch-{batch_size}_epochs-{epochs}_lr-{lr_str}'
+    model_name=f'fcnn_optim-{optimiser}_layer1-{layer1_nodes}_batch-{batch_size}_epochs-{epochs}_lr-{lr_str}'
     
     model.save(f'{path}ScreamDetection/CNN/trained_models/fcnn/{model_name}')
     df.to_csv(f'{path}ScreamDetection/CNN/trained_models/fcnn/{model_name}.csv')
@@ -217,11 +223,18 @@ if __name__ == '__main__':
     batch_size_values=[256,512,1024]
     layer1_node_values=[8,32,64,256,512,1024,2048]
     epoch_values=[1000,2500,5000,10000]
-
+    optimisers=['adadelta','adam']
 
     for lr in lr_values:
         for batch_size in batch_size_values:
             for layer1_node in layer1_node_values:
                 for epoch in epoch_values:
-                    print(f"Training model with the following params: lr-{lr}, epoch={epoch}, batch_size-{batch_size}, layer1_nodes={layer1_node}")
-                    train_models(X_train,y_train_hot,X_test,y_test_hot,epochs=epoch,batch_size=batch_size,lr=lr,layer1_nodes=layer1_node,optimiser='adadelta',loss='crossentropy')
+                    for optimiser in optimisers:
+                        lr_str=str(lr).replace('.','_')
+                        model_name=f'fcnn_optim-{optimiser}_layer1-{layer1_node}_batch-{batch_size}_epochs-{epoch}_lr-{lr_str}'
+                        p=f'{path}ScreamDetection/CNN/trained_models/fcnn/{model_name}'
+                        if not os.path.exists(p):
+                            print(f"Training model with the following params: optimiser-{optimiser}, lr-{lr}, epoch={epoch}, batch_size-{batch_size}, layer1_nodes={layer1_node}")
+                            train_models(X_train,y_train_hot,X_test,y_test_hot,epochs=epoch,batch_size=batch_size,lr=lr,layer1_nodes=layer1_node,optimiser=optimiser,loss='crossentropy')
+                        else:
+                            print("This model has already been run, moving to the next")
