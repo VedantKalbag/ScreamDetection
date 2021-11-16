@@ -1,6 +1,6 @@
 # Scream Detection and Classification for Heavy Metal vocals
 
-The objective of this project is to label blocks of audio based on the detected vocal content, and classify it based on the type of scream (or growl) present
+The objective of this project is to create a dataset of heavy metal music with labelled vocal types, and then detect and classify the vocals into sign vs scream vs no vocal present
 
 Work has been divided into the following stages:
 - Data fetch and cleaning 
