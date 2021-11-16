@@ -31,6 +31,6 @@ scream_detection
 resources/.DS_Store
 resources/dataset/.DS_Store
 resources/dataset/blocked_audio
-CNN/data
-CNN/trained_models
+classifier-comparison/CNN/data
+classifier-comparison/CNN/trained_models
 resources/dataset/Annotations/final/annotation_with_audio_file.csv
