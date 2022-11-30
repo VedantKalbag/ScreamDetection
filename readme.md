@@ -18,5 +18,3 @@ Work has been divided into the following stages:
 - kNN classifier using MFCC and delta MFCCs
 - SVM and RF classifiers using the extracted features listed above features along with MFCCs and delta MFCCs
 
-Next steps and alternate ideas:
-- Apply image processing to the spectrogram to classify the vocal type, since there are clear patterns visible
