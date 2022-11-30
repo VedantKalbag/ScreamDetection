@@ -18,3 +18,5 @@ Work has been divided into the following stages:
 - kNN classifier using MFCC and delta MFCCs
 - SVM and RF classifiers using the extracted features listed above features along with MFCCs and delta MFCCs
 
+Interesting insights:
+- Neither Spleeter nor Demucs consistently work well with heavy metal screams, often adding a large number of perceivable artifacts
